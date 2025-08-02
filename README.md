@@ -1,2 +1,3 @@
 # MySite-Full-Stack-Developer-Portfolio
-A personal website showcasing my projects, skills, and blog. Built with JavaScript (Frontend) + Python/Java (Backend). Features responsive design, API integrations, and CI/CD deployment.
+Персональный сайт разработчика. Здесь собрана информация обо мне, моих навыках и проектах.
+Проект создан как отражение моего опыта и интереса к разработке современных веб-приложений.

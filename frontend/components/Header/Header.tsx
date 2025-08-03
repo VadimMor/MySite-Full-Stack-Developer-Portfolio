@@ -98,6 +98,7 @@ export default function Header() {
                     menuLinks.map((item, index) => {
                         return (
                             <MenuButton
+                                key={index}
                                 id={index+1}
                                 text={item.text}
                                 link={item.link}

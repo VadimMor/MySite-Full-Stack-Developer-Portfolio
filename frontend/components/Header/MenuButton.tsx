@@ -19,6 +19,7 @@ export default function MenuButton({ id, text, link } : MenuButtonProps) {
     return (
         <Link
             href={link}
+            key={id}
             className={`${styles.link} ${isActive ? styles.active : ''}`}
         >
             {`(${id}) ${text}`}

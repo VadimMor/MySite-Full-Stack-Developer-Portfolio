@@ -1,18 +1,14 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "@/public/icostyle/style.css"
 
-const geistPoppins = Poppins({
-  variable: "--font-poppins-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"]
-})
+import Header from "@components/Header/Header";
 
-const geistInter = Inter({
-  variable: "--font-inter-sans",
+const geistJetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["500", "700"]
-})
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,10 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistPoppins.variable} ${geistInter.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistJetBrainsMono.variable}`}>
+        <main>
+          <Header />
+          {children}
+        </main>
       </body>
     </html>
   );

@@ -23,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistJetBrainsMono.variable}`}>
-        <main>
+        <div className="main">
           <Header />
-          {children}
-        </main>
+          <main>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

@@ -15,8 +15,22 @@ import styles from '@styles/About/page.module.scss';
 export default function About() {
     const [activeModal, setActiveModal] = useState<string | null>(null);
 
+    // Working with modal windows
     const openModal = (modalName: string) => setActiveModal(modalName);
     const closeModal = () => setActiveModal(null);
+
+    // Downloading a CV
+    const downloadCV = () => {
+        const link = document.createElement('a');
+        link.href = '/files/mortilly.pdf'; // путь к файлу
+        link.download = 'CV.pdf';    // имя при сохранении
+        link.click();
+    };
+
+    // Link build site
+    const linkSite = () => {
+        window.open("https://github.com/VadimMor/MySite-Full-Stack-Developer-Portfolio", "__blank")
+    }
 
     // Обработка нажатия клавиши q
     useEffect(() => {
@@ -77,6 +91,16 @@ export default function About() {
                             command="email"
                             onEnter={() => openModal('email')}
                             text="To send an email"
+                        />
+                        <CommandCard
+                            command="build site"
+                            onEnter={linkSite}
+                            text="How I build the site"
+                        />
+                        <CommandCard
+                            command="cv"
+                            onEnter={downloadCV}
+                            text="To download my CV"
                         />
                     </div>
 

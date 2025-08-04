@@ -52,11 +52,13 @@ body {
 	margin: 16px;
 	padding: 16px;
 
+
 	border: 2px solid var(--bg-invert);
 	color: var(--text-main);
 }
 main {
 	flex: 1 1 auto;
+	overflow-x: hidden;
 }
 /*----------------------*/
 

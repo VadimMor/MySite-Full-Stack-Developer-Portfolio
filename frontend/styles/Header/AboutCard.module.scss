@@ -1,0 +1,21 @@
+.card {
+    display: flex;
+    gap: 8px;
+
+    div {
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .title {
+        max-width: 90px;
+        width: 100%;
+        flex-shrink: 0;
+    }
+    .text {
+        flex-shrink: 0;
+        
+        color: var(--text-muted);
+    }
+}

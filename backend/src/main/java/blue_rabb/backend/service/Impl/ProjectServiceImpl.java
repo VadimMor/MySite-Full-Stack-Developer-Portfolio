@@ -75,6 +75,11 @@ public class ProjectServiceImpl implements ProjectService {
         );
     }
 
+    /**
+     * Массив кртакой информации о проектах
+     * @param page страница для вывода проектов
+     * @return массив информации
+     */
     @Override
     public MassiveProjectsResponse getProjects(Integer page) {
         List<Project> projects = projectRepository.getListByPage(page * 20);
@@ -95,6 +100,31 @@ public class ProjectServiceImpl implements ProjectService {
         return new MassiveProjectsResponse(
                 massiveProjectsResponse,
                 lastPage
+        );
+    }
+
+    /**
+     * Метод вывода полной информации о проекте
+     * @param name названгие проекта
+     * @return полная инфомация
+     */
+    @Override
+    public FullInfoProjectResponse getProject(String name) {
+        Project project = projectRepository.getByName(name);
+
+        if (project == null) {
+            throw new RuntimeException();
+        }
+
+        return new FullInfoProjectResponse(
+                project.getName(),
+                gitHubApi.getReadme(project.getName()),
+                project.getDateCreateProject(),
+                project.getDateUpdateProject(),
+                project.getTechnologies().stream()
+                        .map(technology -> new TechnologyResponse(technology.getName()))
+                        .toArray(TechnologyResponse[]::new),
+                null
         );
     }
 }

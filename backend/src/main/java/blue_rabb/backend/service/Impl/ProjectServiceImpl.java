@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -64,6 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
                 repositoryData.getName(),
                 repositoryData.getDescription(),
                 repositoryData.getCreatedAt(),
+                repositoryData.getUpdateAt(),
+                new Date(),
+                new Date(),
                 technologySet
         );
 

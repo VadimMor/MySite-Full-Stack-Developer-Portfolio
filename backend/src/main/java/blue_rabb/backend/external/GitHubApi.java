@@ -65,7 +65,7 @@ public class GitHubApi {
                     "VadimMor",
                     repoName
             );
-            System.out.println(url);
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Accept", "application/vnd.github.v3+json")

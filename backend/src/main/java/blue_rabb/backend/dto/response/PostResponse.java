@@ -10,14 +10,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GitHubRepositoryDTO {
-    private String name;
+public class PostResponse {
+    String name;
 
-    private String description;
-
-    @JsonProperty("created_at")
-    private Date createdAt;
-
-    @JsonProperty("update_at")
-    private Date updateAt;
+    @JsonProperty("date_create")
+    Date dateCreate;
 }

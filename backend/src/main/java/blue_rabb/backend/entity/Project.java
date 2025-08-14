@@ -25,8 +25,17 @@ public class Project {
     @Column
     private String description;
 
+    @Column(name = "date_create_project")
+    private Date dateCreateProject;
+
+    @Column(name = "date_update_project")
+    private Date dateUpdateProject;
+
     @Column(name = "date_create")
     private Date dateCreate;
+
+    @Column(name = "date_update")
+    private Date dateUpdate;
 
     @ManyToMany
     @JoinTable(
@@ -36,10 +45,13 @@ public class Project {
     )
     private Set<Technology> technologies = new HashSet<>();
 
-    public Project(String name, String description, Date dateCreate, Set<Technology> technologies) {
+    public Project(String name, String description, Date dateCreateProject, Date dateUpdateProject, Date dateCreate, Date dateUpdate, Set<Technology> technologies) {
         this.name = name;
         this.description = description;
+        this.dateCreateProject = dateCreateProject;
+        this.dateUpdateProject = dateUpdateProject;
         this.dateCreate = dateCreate;
+        this.dateUpdate = dateUpdate;
         this.technologies = technologies;
     }
 }

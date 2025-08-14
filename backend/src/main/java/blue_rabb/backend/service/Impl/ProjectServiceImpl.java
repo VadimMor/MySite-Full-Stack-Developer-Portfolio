@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -64,6 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
                 repositoryData.getName(),
                 repositoryData.getDescription(),
                 repositoryData.getCreatedAt(),
+                repositoryData.getUpdateAt(),
+                new Date(),
+                new Date(),
                 technologySet
         );
 
@@ -75,6 +75,11 @@ public class ProjectServiceImpl implements ProjectService {
         );
     }
 
+    /**
+     * Массив кртакой информации о проектах
+     * @param page страница для вывода проектов
+     * @return массив информации
+     */
     @Override
     public MassiveProjectsResponse getProjects(Integer page) {
         List<Project> projects = projectRepository.getListByPage(page * 20);
@@ -95,6 +100,31 @@ public class ProjectServiceImpl implements ProjectService {
         return new MassiveProjectsResponse(
                 massiveProjectsResponse,
                 lastPage
+        );
+    }
+
+    /**
+     * Метод вывода полной информации о проекте
+     * @param name названгие проекта
+     * @return полная инфомация
+     */
+    @Override
+    public FullInfoProjectResponse getProject(String name) {
+        Project project = projectRepository.getByName(name);
+
+        if (project == null) {
+            throw new RuntimeException();
+        }
+
+        return new FullInfoProjectResponse(
+                project.getName(),
+                gitHubApi.getReadme(project.getName()),
+                project.getDateCreateProject(),
+                project.getDateUpdateProject(),
+                project.getTechnologies().stream()
+                        .map(technology -> new TechnologyResponse(technology.getName()))
+                        .toArray(TechnologyResponse[]::new),
+                null
         );
     }
 }

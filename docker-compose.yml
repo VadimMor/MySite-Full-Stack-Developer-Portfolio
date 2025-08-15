@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Сервис бэкенда 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: my_spring_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      # URL для подключения к БД на хост-машине.
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/test
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - GITHUB_URL=https://api.github.com/
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      
+  # Сервис фронтенда (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: my_next_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      # Если фронтенду нужно знать адрес бэкенда
+      - NEXT_PUBLIC_API_URL=http://localhost:8080

@@ -30,8 +30,7 @@ export default function Header() {
         {text: 'Articles', link: '/'},
         {text: 'My projects', link: '/projects'},
         {text: 'About', link: '/about'},
-        {text: 'Skills', link: '/skills'},
-        {text: 'Talks', link: '/talk'},
+        {text: 'Skills', link: '/skills'}
     ]
 
     return (

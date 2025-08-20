@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-
+import { notFound, useRouter } from 'next/navigation';
 
 // Импорт функций RestAPI
 import createBackRestAPI from "@/services/BackRestAPI";
@@ -34,6 +34,7 @@ interface Technology {
 export default function fullProject({ params }: ProjectPageProps) {
     const [project, setProject] = useState<ProjectProps | null>(null);
     const restApi = createBackRestAPI();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -42,6 +43,7 @@ export default function fullProject({ params }: ProjectPageProps) {
                 setProject(response);
             } catch (error) {
                 console.error("Error in component while fetching projects:", error);
+                 router.push('/not-found');
             }
         }
 

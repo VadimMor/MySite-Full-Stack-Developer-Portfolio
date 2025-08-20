@@ -30,35 +30,4 @@
         flex-direction: column;
         gap: 16px;
     }
-
-    .load {
-        display: flex;
-        gap: 16px;
-
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--text-main);
-
-        span {
-            animation: rotateSymbol 5s infinite steps(2);
-        }
-    }
-}
-
-@keyframes rotateSymbol {
-    0% {
-        transform: rotate(0);
-    }
-    25% {
-        transform: rotate(90deg);
-    }
-    50% {
-        transform: rotate(180deg);
-    }
-    75% {
-        transform: rotate(270deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
 }

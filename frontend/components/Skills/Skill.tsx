@@ -1,12 +1,12 @@
 "use client";
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 import styles from '@styles/Skills/skill.module.scss';
 
 // Импорт изображений
 import Arrow from '@/public/Arrow.svg';
-import { useEffect, useState } from 'react';
 
 interface SkillProps {
     name: string;

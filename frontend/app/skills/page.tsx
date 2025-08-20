@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 // Импорт компонентов
 import Skill from "@/components/Skills/Skill";
+import Loading from "@/components/Loading";
 
 // Импорт функций RestAPI
 import createBackRestAPI from "@/services/BackRestAPI";
@@ -50,10 +51,7 @@ export default function Skills() {
                         <Skill key={index} data={skill} />
                     ))
                 ) : (
-                    <div className={styles.load}>
-                        Loading
-                        <span>|</span>
-                    </div>
+                    <Loading />
                 )}
             </div>
         </div>

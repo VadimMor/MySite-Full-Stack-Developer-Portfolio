@@ -16,8 +16,40 @@ const createBackRestAPI = () => {
         }
     }
 
+    const getMassiveProjects = async (number: number) => {
+        try {
+            const response = await fetch(`${BASE_URL}/projects?page=${number}`)
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch projects')
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching projects: ', error);
+            throw error;
+        }
+    }
+
+    const getProject = async (name: string) => {
+        try {
+            const response = await fetch(`${BASE_URL}/projects/${name}`)
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch project')
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching project: ', error);
+            throw error;
+        }
+    }
+
     return {
-        getMassiveSkills
+        getMassiveSkills,
+        getMassiveProjects,
+        getProject
     }
 }
 

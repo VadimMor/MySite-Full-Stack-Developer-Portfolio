@@ -16,7 +16,7 @@ import "github-markdown-css";
 import Loading from "@/components/Loading";
 
 interface ProjectPageProps {
-  params: { name: string }
+  params: Promise<{ name: string }>
 }
 
 interface ProjectProps {
@@ -31,7 +31,7 @@ interface Technology {
     name: string;
 }
 
-export default function fullProject({ params }: ProjectPageProps) {
+export default function fullProject({ params }:  ProjectPageProps) {
     const [project, setProject] = useState<ProjectProps | null>(null);
     const restApi = createBackRestAPI();
     const router = useRouter();
@@ -39,7 +39,7 @@ export default function fullProject({ params }: ProjectPageProps) {
     useEffect(() => {
         const fetchProject = async () => {
             try {
-                const response = await restApi.getProject(params.name);
+                const response = await restApi.getProject((await params).name);
                 setProject(response);
             } catch (error) {
                 console.error("Error in component while fetching projects:", error);

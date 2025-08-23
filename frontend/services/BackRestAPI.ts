@@ -1,5 +1,5 @@
 const createBackRestAPI = () => {
-    const BASE_URL = 'http://localhost:8080/api-0.1'
+    const BASE_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api-0.1`;
 
     const getMassiveSkills = async () => {
         try {

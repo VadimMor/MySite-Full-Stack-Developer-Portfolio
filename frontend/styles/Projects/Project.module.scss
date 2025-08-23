@@ -13,4 +13,9 @@
     .technologies {
         color: var(--text-muted);
     }
+
+    &:hover,
+    &:focus {
+        background: var(--bg-select);
+    }
 }

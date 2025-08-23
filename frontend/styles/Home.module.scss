@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    
+    .menu_header {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 118px 1fr 70px 1fr;
+        padding: 4px 0;
+        margin: 16px 0 4px;
+
+        border-bottom: 1px solid var(--bg-invert);
+
+        color: var(--text-main);
+    }
+}

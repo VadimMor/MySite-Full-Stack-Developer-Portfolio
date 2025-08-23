@@ -46,10 +46,26 @@ const createBackRestAPI = () => {
         }
     }
 
+    const getMassivePosts = async (number: number) => {
+        try {
+            const response = await fetch(`${BASE_URL}/posts?page=${number}`)
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch projects')
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching projects: ', error);
+            throw error;
+        }
+    }
+
     return {
         getMassiveSkills,
         getMassiveProjects,
-        getProject
+        getProject,
+        getMassivePosts
     }
 }
 

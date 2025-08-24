@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "github-markdown-css": "^5.8.1",
     "next": "15.4.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
     "sass": "^1.89.2"
   },
   "devDependencies": {

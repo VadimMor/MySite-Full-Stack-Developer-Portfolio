@@ -31,4 +31,4 @@ services:
       - "3000:3000"
     environment:
       # Если фронтенду нужно знать адрес бэкенда
-      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}

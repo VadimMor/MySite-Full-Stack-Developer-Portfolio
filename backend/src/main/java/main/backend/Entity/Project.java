@@ -3,6 +3,7 @@ package main.backend.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import main.backend.enums.StatusVisibility;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -23,8 +24,9 @@ public class Project {
     @Column(name = "update_date")
     private Timestamp updateDate;
 
-    @Column
-    private Boolean status;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusVisibility status = StatusVisibility.DEVELOPMENT;
 
     @Column
     private String name;
@@ -46,7 +48,7 @@ public class Project {
     )
     private Set<Technology> technologies = new HashSet<>();
 
-    public Project(Timestamp createDate, Timestamp updateDate, Boolean status, String name, String shortDescription, String description, String url) {
+    public Project(Timestamp createDate, Timestamp updateDate, StatusVisibility status, String name, String shortDescription, String description, String url) {
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.status = status;

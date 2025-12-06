@@ -1,4 +1,4 @@
-package main.backend.dto.Response;
+package main.backend.dto.Request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -7,10 +7,10 @@ import main.backend.enums.StatusVisibility;
 
 @Data
 @AllArgsConstructor
-public class ProjectResponse {
+public class UpdateStatusProject {
     @JsonProperty("name")
     String name;
 
     @JsonProperty("status")
-    StatusVisibility status;
+    String status;
 }

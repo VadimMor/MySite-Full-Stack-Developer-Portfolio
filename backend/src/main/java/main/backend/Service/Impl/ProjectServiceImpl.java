@@ -8,7 +8,9 @@ import main.backend.Repository.ProjectRepository;
 import main.backend.Service.ProjectService;
 import main.backend.Service.TechnologyService;
 import main.backend.dto.Request.ProjectRequest;
+import main.backend.dto.Request.UpdateStatusProject;
 import main.backend.dto.Response.ProjectResponse;
+import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse createProject(ProjectRequest projectRequest) {
         log.trace("Search project by name - {}", projectRequest.getName());
-        Project project = projectRepository.getByNameAndStatus(projectRequest.getName(), true);
+        Project project = projectRepository.getByName(projectRequest.getName());
 
         if (project != null) {
             log.error("The project has already been created - {}", projectRequest.getName());
@@ -48,7 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project newProject = new Project(
                 now,
                 now,
-                false,
+                StatusVisibility.DEVELOPMENT,
                 projectRequest.getName(),
                 projectRequest.getShortDescription(),
                 projectRequest.getDescription(),
@@ -67,7 +69,33 @@ public class ProjectServiceImpl implements ProjectService {
 
         return new ProjectResponse(
                 newProject.getName(),
-                false
+                newProject.getStatus()
+        );
+    }
+
+    /**
+     * Обновление статуса проекта
+     * @param updateStatusProject информация для обновления
+     * @return обновленный статус проекта
+     */
+    @Override
+    public ProjectResponse updateStatus(UpdateStatusProject updateStatusProject) {
+        log.trace("Search project by name - {}", updateStatusProject.getName());
+        Project project = projectRepository.getByName(updateStatusProject.getName());
+
+        if (project == null) {
+            log.error("The project not found - {}", updateStatusProject.getName());
+            throw new RuntimeException("The project not found");
+        }
+
+        project.setStatus(
+                StatusVisibility.fromStatus(updateStatusProject.getStatus())
+        );
+        projectRepository.save(project);
+
+        return new ProjectResponse(
+                project.getName(),
+                project.getStatus()
         );
     }
 }

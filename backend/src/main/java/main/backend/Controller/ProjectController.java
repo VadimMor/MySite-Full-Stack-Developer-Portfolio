@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import main.backend.Service.ProjectService;
 import main.backend.dto.Request.ProjectRequest;
 import main.backend.dto.Request.UpdateStatusProject;
+import main.backend.dto.Response.FullInfoProjectResponse;
 import main.backend.dto.Response.ProjectResponse;
+import main.backend.dto.Response.ShortInfoProjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +47,31 @@ public class ProjectController {
             ) {
         ProjectResponse projectResponse = projectService.updateStatus(updateStatusProject);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(projectResponse);
+    }
+
+    @GetMapping("/{name}")
+    @Operation(
+            summary = "Вывод информации о проекте",
+            description = "Вывод полной информации о проекте для пользователя"
+    )
+    public ResponseEntity<FullInfoProjectResponse> getProject(
+            @Parameter(description = "Название проекта", required = true, example = "example")
+            @PathVariable("name") String name
+    ) {
+        FullInfoProjectResponse fullInfoProjectResponse = projectService.getProject(name);
+        return ResponseEntity.ok(fullInfoProjectResponse);
+    }
+
+    @GetMapping("/short/{name}")
+    @Operation(
+            summary = "Вывод краткой информации о проекте",
+            description = "Вывод ознокомительной информации о проекте для пользователя"
+    )
+    public ResponseEntity<ShortInfoProjectResponse> getShortProject(
+            @Parameter(description = "Название проекта", required = true, example = "example")
+            @PathVariable("name") String name
+    ) {
+        ShortInfoProjectResponse shortInfoProjectResponse = projectService.getShortProject(name);
+        return ResponseEntity.ok(shortInfoProjectResponse);
     }
 }

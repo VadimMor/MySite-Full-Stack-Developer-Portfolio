@@ -4,12 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main.backend.Entity.Project;
+import main.backend.Entity.Technology;
 import main.backend.Repository.ProjectRepository;
 import main.backend.Service.ProjectService;
 import main.backend.Service.TechnologyService;
 import main.backend.dto.Request.ProjectRequest;
 import main.backend.dto.Request.UpdateStatusProject;
+import main.backend.dto.Response.FullInfoProjectResponse;
 import main.backend.dto.Response.ProjectResponse;
+import main.backend.dto.Response.ShortInfoProjectResponse;
+import main.backend.dto.Response.TechnologyResponse;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,14 +92,72 @@ public class ProjectServiceImpl implements ProjectService {
             throw new RuntimeException("The project not found");
         }
 
+        log.trace("Update status \"{}\" project - {}", updateStatusProject.getStatus(), updateStatusProject.getName());
         project.setStatus(
                 StatusVisibility.fromStatus(updateStatusProject.getStatus())
         );
+
+        log.trace("Save project by name - {}", project.getName());
         projectRepository.save(project);
 
         return new ProjectResponse(
                 project.getName(),
                 project.getStatus()
+        );
+    }
+
+    /**
+     * Вывод полной информации о проекте
+     * @param name название проекта
+     * @return информация о проекте
+     */
+    @Override
+    public FullInfoProjectResponse getProject(String name) {
+        log.trace("Search project by name - {}", name);
+        Project project = projectRepository.getByNameAndStatus(name,StatusVisibility.OPEN);
+
+        if (project == null) {
+            log.error("The project not found - {}", name);
+            throw new RuntimeException("The project not found");
+        }
+
+        log.trace("Get info project by name - {}", name);
+        return new FullInfoProjectResponse(
+                project.getName(),
+                project.getDescription(),
+                project.getCreateDate(),
+                project.getUrl(),
+                project
+                        .getTechnologies()
+                        .stream()
+                        .map(
+                                technology -> new TechnologyResponse(
+                                        technology.getName()
+                                )
+                        ).toArray(
+                                TechnologyResponse[]::new
+                        )
+        );
+    }
+
+    /**
+     * Вывод краткой информации о проекте
+     * @param name название проекта
+     * @return информация о проекте
+     */
+    @Override
+    public ShortInfoProjectResponse getShortProject(String name) {
+        log.trace("Search project by name - {}", name);
+        Project project = projectRepository.getByNameAndStatus(name,StatusVisibility.OPEN);
+
+        if (project == null) {
+            log.error("The project not found - {}", name);
+            throw new RuntimeException("The project not found");
+        }
+
+        return new ShortInfoProjectResponse(
+                project.getName(),
+                project.getShortDescription()
         );
     }
 }

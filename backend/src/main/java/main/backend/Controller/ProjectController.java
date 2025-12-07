@@ -8,6 +8,7 @@ import main.backend.Service.ProjectService;
 import main.backend.dto.Request.ProjectRequest;
 import main.backend.dto.Request.UpdateStatusProject;
 import main.backend.dto.Response.FullInfoProjectResponse;
+import main.backend.dto.Response.InfoAnArrayProject;
 import main.backend.dto.Response.ProjectResponse;
 import main.backend.dto.Response.ShortInfoProjectResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,20 @@ public class ProjectController {
     ) {
         ShortInfoProjectResponse shortInfoProjectResponse = projectService.getShortProject(name);
         return ResponseEntity.ok(shortInfoProjectResponse);
+    }
+
+    @GetMapping("/all")
+    @Operation(
+            summary = "Вывод массива проектов",
+            description = "Вывод массива проектов по фильтрам"
+    )
+    public ResponseEntity<InfoAnArrayProject[]> getMassiveProjects(
+            @Parameter(description = "Сортировка по дате", required = false, example = "example_STATUS")
+            @RequestParam(name = "sort", required = false) String sort,
+            @Parameter(description = "Страница для вывода проектов", required = false, example = "1")
+            @RequestParam(name = "page", required = false) Integer page
+    ) {
+        InfoAnArrayProject[] infoAnArrayProjects = projectService.getMassiveProjects(sort, page);
+        return ResponseEntity.ok(infoAnArrayProjects);
     }
 }

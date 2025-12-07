@@ -4,22 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main.backend.Entity.Project;
-import main.backend.Entity.Technology;
 import main.backend.Repository.ProjectRepository;
 import main.backend.Service.ProjectService;
 import main.backend.Service.TechnologyService;
 import main.backend.dto.Request.ProjectRequest;
 import main.backend.dto.Request.UpdateStatusProject;
-import main.backend.dto.Response.FullInfoProjectResponse;
-import main.backend.dto.Response.ProjectResponse;
-import main.backend.dto.Response.ShortInfoProjectResponse;
-import main.backend.dto.Response.TechnologyResponse;
+import main.backend.dto.Response.*;
+import main.backend.enums.SortVisibility;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -159,5 +161,103 @@ public class ProjectServiceImpl implements ProjectService {
                 project.getName(),
                 project.getShortDescription()
         );
+    }
+
+    /**
+     * Вывод массива проектов по сортировке
+     * @param sort сортировка по признаку
+     * @param page страница для вывода проектов
+     * @return массив проектов
+     */
+    @Override
+    public InfoAnArrayProject[] getMassiveProjects(String sort, Integer page) {
+        log.trace("Getting projects with sort: '{}' and page: {}", sort, page);
+        List<Project> projectList = null;
+
+        if (sort != null && page == null) {
+            String[] sortMassive = sort.split("_");
+            log.trace("Sorting requested without page: field='{}', direction='{}', using page 0", sortMassive[0], sortMassive[1]);
+
+            if (Objects.equals(sortMassive[0], "date")) {
+                projectList = findProjectsBySortAndPage(
+                        "createDate",
+                        sortMassive[1],
+                        0
+                );
+            } else if (Objects.equals(sortMassive[0], "name")) {
+                projectList = findProjectsBySortAndPage(
+                        "name",
+                        sortMassive[1],
+                        0
+                );
+            }
+        } else if (sort == null && page != null) {
+            log.trace("Paging requested without sort: calculating offset {}", page * 10);
+            projectList = projectRepository.findProjectsByPage(page * 10);
+        } else if (sort != null && page != null) {
+            String[] sortMassive = sort.split("_");
+            log.trace("Sorting and paging requested: field='{}', direction='{}', page={}", sortMassive[0], sortMassive[1], page);
+
+            if (Objects.equals(sortMassive[0], "date")) {
+                projectList = findProjectsBySortAndPage(
+                        "createDate",
+                        sortMassive[1],
+                        page
+                );
+            } else if (Objects.equals(sortMassive[0], "name")) {
+                projectList = findProjectsBySortAndPage(
+                        "name",
+                        sortMassive[1],
+                        page
+                );
+            }
+        } else {
+            log.trace("No parameters provided, defaulting to page 0 without sort.");
+            projectList = projectRepository.findProjectsByPage(0);
+        }
+
+        if (projectList == null) {
+            log.trace("No projects found (empty list), returning empty array.");
+            return new InfoAnArrayProject[0];
+        }
+
+        log.trace("Found {} projects. Mapping to InfoAnArrayProject[].", projectList.size());
+        return projectList.stream().map(
+                project -> new InfoAnArrayProject(
+                        project.getCreateDate(),
+                        project.getName(),
+                        project
+                                .getTechnologies()
+                                .stream()
+                                .map(
+                                        technology -> new TechnologyResponse(
+                                                technology.getName()
+                                        )
+                                ).toArray(
+                                        TechnologyResponse[]::new
+                                )
+                )
+        ).toArray(InfoAnArrayProject[]::new);
+    }
+
+    /**
+     * Вывод списка проектов по признакам
+     * @param name название столбца
+     * @param status статус сортировки
+     * @param page номер страницы
+     * @return список проектов
+     */
+    private List<Project> findProjectsBySortAndPage(String name, String status, Integer page) {
+        log.trace("Preparing query: sort by '{}', direction '{}', page {}", name, status, page);
+
+        if (SortVisibility.fromStatus(status) == SortVisibility.DOWN) {
+            log.trace("Executing DOWN query (ASC) on field '{}' (Page: {})", name, page);
+            Pageable pageable = PageRequest.of(page, 10, Sort.by(name).ascending());
+            return projectRepository.findDownProjectsBySortAndPage(pageable);
+        } else {
+            log.trace("Executing UP query (DESC) on field '{}' (Page: {})", name, page);
+            Pageable pageable = PageRequest.of(page, 10, Sort.by(name).descending());
+            return projectRepository.findUpProjectsBySortAndPage(pageable);
+        }
     }
 }

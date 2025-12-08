@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -238,6 +239,50 @@ public class ProjectServiceImpl implements ProjectService {
                                 )
                 )
         ).toArray(InfoAnArrayProject[]::new);
+    }
+
+    /**
+     * Изменение и сохранение нового проекта
+     * @param projectRequest информация о проекте
+     * @return название и статус измененного проекта
+     */
+    @Override
+    public ProjectResponse updateProject(ProjectRequest projectRequest) {
+        log.trace("Search project by name - {}", projectRequest.getName());
+        Project project = projectRepository.getByName(projectRequest.getName());
+
+        if (project == null) {
+            log.error("The project not found - {}", projectRequest.getName());
+            throw new RuntimeException("The project not found");
+        }
+
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
+        log.trace("Update project by name - {}", projectRequest.getName());
+        project.setName(projectRequest.getName());
+        project.setDescription(projectRequest.getDescription());
+        project.setShortDescription(projectRequest.getShortDescription());
+        project.setUrl(projectRequest.getUrl());
+        project.setUpdateDate(now);
+
+        log.trace("Delete technologies project by name - {}", projectRequest.getName());
+        project.setTechnologies(new HashSet<>());
+
+        projectRequest.getTechnologyRequestList().forEach(technologyRequest -> {
+            log.trace("Add technology in project - {}", technologyRequest.getName());
+            project.addTechnology(
+                    technologyService.createTechnology(technologyRequest.getName())
+            );
+        });
+
+        log.trace("Save project by name - {}", projectRequest.getName());
+        projectRepository.save(project);
+
+        return new ProjectResponse(
+                project.getName(),
+                project.getStatus()
+        );
     }
 
     /**

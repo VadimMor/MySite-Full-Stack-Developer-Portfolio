@@ -39,6 +39,19 @@ public class ProjectController {
 
     @PutMapping
     @Operation(
+            summary = "Изменение проекта",
+            description = "Изменяет проект и сохраняет бд"
+    )
+    public ResponseEntity<ProjectResponse> updateProject(
+            @Parameter(description = "Информация о проекте", required = true)
+            @RequestBody ProjectRequest projectRequest
+    ) {
+        ProjectResponse projectResponse = projectService.updateProject(projectRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectResponse);
+    }
+
+    @PutMapping("/status")
+    @Operation(
             summary = "Обновление статуса проекта",
             description = "Обновляет статус проекта и сохраняет в бд"
     )

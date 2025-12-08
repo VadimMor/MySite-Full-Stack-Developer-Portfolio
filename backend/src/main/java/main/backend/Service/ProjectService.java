@@ -45,4 +45,11 @@ public interface ProjectService {
      * @return массив проектов
      */
     InfoAnArrayProject[] getMassiveProjects(String sort, Integer page);
+
+    /**
+     * Изменение и сохранение нового проекта
+     * @param projectRequest информация о проекте
+     * @return название и статус измененного проекта
+     */
+    ProjectResponse updateProject(ProjectRequest projectRequest);
 }

@@ -35,19 +35,6 @@ public class SkillController {
         return ResponseEntity.status(HttpStatus.CREATED).body(skillResponse);
     }
 
-    @PostMapping("/experience")
-    @Operation(
-            summary = "Создание опыта",
-            description = "Создает опыта и сохраняет в бд"
-    )
-    public ResponseEntity<ExperienceResponse> createExperience(
-            @Parameter(description = "Информация о опыте", required = true)
-            @RequestBody ExperienceRequest experienceRequest
-            ) {
-        ExperienceResponse experienceResponse = skillService.createExperience(experienceRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(experienceResponse);
-    }
-
     @GetMapping("/all")
     @Operation(
             summary = "Вывод всех скиллов с опытом",
@@ -66,22 +53,9 @@ public class SkillController {
     public ResponseEntity<SkillResponse> updateStatusSkill(
             @Parameter(description = "Информация скилла для обновления статуса", required = true)
             @RequestBody UpdateStatusSkill updateStatusSkill
-            ) {
+    ) {
         SkillResponse skillResponse = skillService.updateStatusSkill(updateStatusSkill);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(skillResponse);
-    }
-
-    @PutMapping("/experience/status")
-    @Operation(
-            summary = "Обновление статуса опыта",
-            description = "обновляет статус опыта и сохраняет в бд"
-    )
-    public ResponseEntity<ExperienceResponse> updateStatusExperience(
-            @Parameter(description = "Информация опыта для обновления статуса", required = true)
-            @RequestBody UpdateStatusExperience updateStatusExperience
-    ) {
-        ExperienceResponse experienceResponse = skillService.updateStatusExperience(updateStatusExperience);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(experienceResponse);
     }
 
     @PutMapping("/add")
@@ -95,5 +69,31 @@ public class SkillController {
     ) {
         SkillResponse skillResponse = skillService.addExperienceInSkill(addExperienceInSkill);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(skillResponse);
+    }
+
+    @PostMapping("/experience")
+    @Operation(
+            summary = "Создание опыта",
+            description = "Создает опыта и сохраняет в бд"
+    )
+    public ResponseEntity<ExperienceResponse> createExperience(
+            @Parameter(description = "Информация о опыте", required = true)
+            @RequestBody ExperienceRequest experienceRequest
+            ) {
+        ExperienceResponse experienceResponse = skillService.createExperience(experienceRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(experienceResponse);
+    }
+
+    @PutMapping("/experience/status")
+    @Operation(
+            summary = "Обновление статуса опыта",
+            description = "обновляет статус опыта и сохраняет в бд"
+    )
+    public ResponseEntity<ExperienceResponse> updateStatusExperience(
+            @Parameter(description = "Информация опыта для обновления статуса", required = true)
+            @RequestBody UpdateStatusExperience updateStatusExperience
+    ) {
+        ExperienceResponse experienceResponse = skillService.updateStatusExperience(updateStatusExperience);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(experienceResponse);
     }
 }

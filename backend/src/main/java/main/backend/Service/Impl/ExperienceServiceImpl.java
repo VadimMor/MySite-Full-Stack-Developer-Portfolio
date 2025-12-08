@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -89,5 +91,25 @@ public class ExperienceServiceImpl implements ExperienceService {
                 experience.getName(),
                 experience.getStatus()
         );
+    }
+
+    /**
+     * Получения списка опыта по названиям
+     * @param experiences название опыта
+     * @return список опыта
+     */
+    @Override
+    public List<Experience> getAllByNames(List<String> experiences) {
+        List<Experience> experienceList = new ArrayList<>();
+
+        experiences.forEach(name -> {
+            Experience experience = experienceRepository.getByNameAndStatus(name, StatusVisibility.OPEN);
+
+            if (experience != null) {
+                experienceList.add(experience);
+            }
+        });
+
+        return experienceList;
     }
 }

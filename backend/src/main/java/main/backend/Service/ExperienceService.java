@@ -1,9 +1,12 @@
 package main.backend.Service;
 
+import main.backend.Entity.Experience;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.UpdateStatusExperience;
 import main.backend.dto.Response.ExperienceResponse;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface ExperienceService {
@@ -20,4 +23,11 @@ public interface ExperienceService {
      * @return статус о успешном обновлении
      */
     ExperienceResponse updateStatusExperience(UpdateStatusExperience updateStatusExperience);
+
+    /**
+     * Получения списка опыта по названиям
+     * @param experiences название опыта
+     * @return список опыта
+     */
+    List<Experience> getAllByNames(List<String> experiences);
 }

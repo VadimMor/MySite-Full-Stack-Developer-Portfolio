@@ -5,10 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main.backend.Service.SkillService;
-import main.backend.dto.Request.ExperienceRequest;
-import main.backend.dto.Request.SkillRequest;
-import main.backend.dto.Request.UpdateStatusExperience;
-import main.backend.dto.Request.UpdateStatusSkill;
+import main.backend.dto.Request.*;
 import main.backend.dto.Response.ExperienceResponse;
 import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
@@ -85,5 +82,18 @@ public class SkillController {
     ) {
         ExperienceResponse experienceResponse = skillService.updateStatusExperience(updateStatusExperience);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(experienceResponse);
+    }
+
+    @PutMapping("/add")
+    @Operation(
+            summary = "Добавление опыта к скиллу",
+            description = "Добавляет массим опыта к скиллу и сохраняет в бд"
+    )
+    public ResponseEntity<SkillResponse> addExperienceInSkill(
+            @Parameter(description = "Массив опыта для добавления", required = true)
+            @RequestBody AddExperienceInSkillRequest addExperienceInSkill
+    ) {
+        SkillResponse skillResponse = skillService.addExperienceInSkill(addExperienceInSkill);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(skillResponse);
     }
 }

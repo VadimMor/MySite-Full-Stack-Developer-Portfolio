@@ -1,9 +1,6 @@
 package main.backend.Service;
 
-import main.backend.dto.Request.ExperienceRequest;
-import main.backend.dto.Request.SkillRequest;
-import main.backend.dto.Request.UpdateStatusExperience;
-import main.backend.dto.Request.UpdateStatusSkill;
+import main.backend.dto.Request.*;
 import main.backend.dto.Response.ExperienceResponse;
 import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
@@ -44,4 +41,11 @@ public interface SkillService {
      * @return статус о успешном обновлении
      */
     ExperienceResponse updateStatusExperience(UpdateStatusExperience updateStatusExperience);
+
+    /**
+     * Добавление массива опыта к скиллу
+     * @param addExperienceInSkill информация для добавления
+     * @return статус о успешном добавлении
+     */
+    SkillResponse addExperienceInSkill(AddExperienceInSkillRequest addExperienceInSkill);
 }

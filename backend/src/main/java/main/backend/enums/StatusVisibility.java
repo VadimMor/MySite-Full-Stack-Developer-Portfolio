@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 public enum StatusVisibility {
     OPEN("OPEN"),
     DEVELOPMENT("DEVELOPMENT"),
+    UPDATE("UPDATE"),
     CLOSED("CLOSED"),
     DELETE("DELETE");
 

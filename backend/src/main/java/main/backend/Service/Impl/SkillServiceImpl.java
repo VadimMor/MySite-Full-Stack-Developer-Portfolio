@@ -3,21 +3,20 @@ package main.backend.Service.Impl;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.backend.Entity.Project;
 import main.backend.Entity.Skill;
 import main.backend.Repository.SkillRepository;
 import main.backend.Service.ExperienceService;
 import main.backend.Service.SkillService;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.SkillRequest;
-import main.backend.dto.Response.ExperienceResponse;
-import main.backend.dto.Response.SkillResponse;
+import main.backend.dto.Response.*;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -75,5 +74,33 @@ public class SkillServiceImpl implements SkillService {
     public ExperienceResponse createExperience(ExperienceRequest experienceRequest) {
         log.trace("Create experience by name - {}", experienceRequest.getName());
         return experienceService.createExperience(experienceRequest);
+    }
+
+    /**
+     * Вывод массива скиллов с опытом
+     * @return массив скиллов
+     */
+    @Override
+    public FullSkillResponse[] getMassiveSkill() {
+        log.trace("Search all skill");
+        List<Skill> skillList = skillRepository.findAllByStatus(StatusVisibility.OPEN);
+
+        log.trace("Found {} skills. Mapping to FullSkillResponse[].", skillList.size());
+        return skillList.stream().map(
+                skill -> new FullSkillResponse(
+                        skill.getName(),
+                        skill.getDescription(),
+                        skill.getExperiences()
+                                .stream()
+                                .map(
+                                        experience -> new FullExperienceResponse(
+                                                experience.getName(),
+                                                experience.getDescription()
+                                        )
+                                ).toArray(
+                                        FullExperienceResponse[]::new
+                                )
+                )
+        ).toArray(FullSkillResponse[]::new);
     }
 }

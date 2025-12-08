@@ -8,14 +8,12 @@ import main.backend.Service.SkillService;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.SkillRequest;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -49,5 +47,15 @@ public class SkillController {
             ) {
         ExperienceResponse experienceResponse = skillService.createExperience(experienceRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(experienceResponse);
+    }
+
+    @GetMapping("/all")
+    @Operation(
+            summary = "Вывод всех скиллов с опытом",
+            description = "Выводит все скиллы с опытом"
+    )
+    public ResponseEntity<FullSkillResponse[]> getMassiveSkill() {
+        FullSkillResponse[] fullSkillResponses = skillService.getMassiveSkill();
+        return ResponseEntity.ok(fullSkillResponses);
     }
 }

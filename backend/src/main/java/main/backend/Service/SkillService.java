@@ -3,6 +3,7 @@ package main.backend.Service;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.SkillRequest;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +22,10 @@ public interface SkillService {
      * @return статус о успешном создании опыта
      */
     ExperienceResponse createExperience(ExperienceRequest experienceRequest);
+
+    /**
+     * Вывод массива скиллов с опытом
+     * @return массив скиллов
+     */
+    FullSkillResponse[] getMassiveSkill();
 }

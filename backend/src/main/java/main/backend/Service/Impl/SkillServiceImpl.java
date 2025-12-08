@@ -119,10 +119,14 @@ public class SkillServiceImpl implements SkillService {
             throw new RuntimeException("The skill not found");
         }
 
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
         log.trace("Update status \"{}\" skill - {}", updateStatusSkill.getStatus(), updateStatusSkill.getName());
         skill.setStatus(
                 StatusVisibility.fromStatus(updateStatusSkill.getStatus())
         );
+        skill.setUpdateDate(now);
 
         log.trace("Save skill by name - {}", skill.getName());
         skillRepository.save(skill);

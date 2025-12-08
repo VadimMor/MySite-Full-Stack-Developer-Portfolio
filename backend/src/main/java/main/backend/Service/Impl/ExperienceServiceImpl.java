@@ -80,10 +80,14 @@ public class ExperienceServiceImpl implements ExperienceService {
             throw new RuntimeException("The experience not found");
         }
 
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
         log.trace("Update status \"{}\" experience - {}", updateStatusExperience.getStatus(), updateStatusExperience.getName());
         experience.setStatus(
                 StatusVisibility.fromStatus(updateStatusExperience.getStatus())
         );
+        experience.setUpdateDate(now);
 
         log.trace("Save experience by name - {}", experience.getName());
         experienceRepository.save(experience);

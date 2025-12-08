@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import main.backend.Service.SkillService;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.SkillRequest;
+import main.backend.dto.Request.UpdateStatusExperience;
+import main.backend.dto.Request.UpdateStatusSkill;
 import main.backend.dto.Response.ExperienceResponse;
 import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
@@ -57,5 +59,31 @@ public class SkillController {
     public ResponseEntity<FullSkillResponse[]> getMassiveSkill() {
         FullSkillResponse[] fullSkillResponses = skillService.getMassiveSkill();
         return ResponseEntity.ok(fullSkillResponses);
+    }
+
+    @PutMapping("/status")
+    @Operation(
+            summary = "Обновление статуса скилла",
+            description = "обновляет статус скилла и сохраняет в бд"
+    )
+    public ResponseEntity<SkillResponse> updateStatusSkill(
+            @Parameter(description = "Информация скилла для обновления статуса", required = true)
+            @RequestBody UpdateStatusSkill updateStatusSkill
+            ) {
+        SkillResponse skillResponse = skillService.updateStatusSkill(updateStatusSkill);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(skillResponse);
+    }
+
+    @PutMapping("/experience/status")
+    @Operation(
+            summary = "Обновление статуса опыта",
+            description = "обновляет статус опыта и сохраняет в бд"
+    )
+    public ResponseEntity<ExperienceResponse> updateStatusExperience(
+            @Parameter(description = "Информация опыта для обновления статуса", required = true)
+            @RequestBody UpdateStatusExperience updateStatusExperience
+    ) {
+        ExperienceResponse experienceResponse = skillService.updateStatusExperience(updateStatusExperience);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(experienceResponse);
     }
 }

@@ -9,6 +9,8 @@ import main.backend.Service.ExperienceService;
 import main.backend.Service.SkillService;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.SkillRequest;
+import main.backend.dto.Request.UpdateStatusExperience;
+import main.backend.dto.Request.UpdateStatusSkill;
 import main.backend.dto.Response.*;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +104,44 @@ public class SkillServiceImpl implements SkillService {
                                 )
                 )
         ).toArray(FullSkillResponse[]::new);
+    }
+
+    /**
+     * Обновление статуса скилла
+     * @param updateStatusSkill информация для обновления
+     * @return статус о успешном обновлении
+     */
+    @Override
+    public SkillResponse updateStatusSkill(UpdateStatusSkill updateStatusSkill) {
+        log.trace("Search skill by name - {}", updateStatusSkill.getName());
+        Skill skill = skillRepository.getByName(updateStatusSkill.getName());
+
+        if (skill == null) {
+            log.error("The skill not found - {}", updateStatusSkill.getName());
+            throw new RuntimeException("The skill not found");
+        }
+
+        log.trace("Update status \"{}\" skill - {}", updateStatusSkill.getStatus(), updateStatusSkill.getName());
+        skill.setStatus(
+                StatusVisibility.fromStatus(updateStatusSkill.getStatus())
+        );
+
+        log.trace("Save skill by name - {}", skill.getName());
+        skillRepository.save(skill);
+
+        return new SkillResponse(
+                skill.getName(),
+                skill.getStatus()
+        );
+    }
+
+    /**
+     * Обновление статуса опыта
+     * @param updateStatusExperience информация для обновления
+     * @return статус о успешном обновлении
+     */
+    @Override
+    public ExperienceResponse updateStatusExperience(UpdateStatusExperience updateStatusExperience) {
+        return experienceService.updateStatusExperience(updateStatusExperience);
     }
 }

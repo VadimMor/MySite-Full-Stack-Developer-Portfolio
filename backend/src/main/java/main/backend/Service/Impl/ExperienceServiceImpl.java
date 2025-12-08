@@ -8,7 +8,9 @@ import main.backend.Entity.Skill;
 import main.backend.Repository.ExperienceRepository;
 import main.backend.Service.ExperienceService;
 import main.backend.dto.Request.ExperienceRequest;
+import main.backend.dto.Request.UpdateStatusExperience;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.SkillResponse;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,11 +34,11 @@ public class ExperienceServiceImpl implements ExperienceService {
     @Override
     public ExperienceResponse createExperience(ExperienceRequest experienceRequest) {
         log.trace("Search experience by name - {}", experienceRequest.getName());
-        Skill skill = experienceRepository.getByName(experienceRequest.getName());
+        Experience experience = experienceRepository.getByName(experienceRequest.getName());
 
-        if (skill != null) {
+        if (experience != null) {
             log.error("The experience has already been created - {}", experienceRequest.getName());
-            throw new RuntimeException("The skill has already been created");
+            throw new RuntimeException("The experience has already been created");
         }
 
         log.trace("Create now timestamp");
@@ -57,6 +59,35 @@ public class ExperienceServiceImpl implements ExperienceService {
         return new ExperienceResponse(
                 newExperience.getName(),
                 newExperience.getStatus()
+        );
+    }
+
+    /**
+     * Обновление статуса опыта
+     * @param updateStatusExperience информация для обновления
+     * @return статус о успешном обновлении
+     */
+    @Override
+    public ExperienceResponse updateStatusExperience(UpdateStatusExperience updateStatusExperience) {
+        log.trace("Search experience by name - {}", updateStatusExperience.getName());
+        Experience experience = experienceRepository.getByName(updateStatusExperience.getName());
+
+        if (experience == null) {
+            log.error("The experience not found - {}", updateStatusExperience.getName());
+            throw new RuntimeException("The experience not found");
+        }
+
+        log.trace("Update status \"{}\" experience - {}", updateStatusExperience.getStatus(), updateStatusExperience.getName());
+        experience.setStatus(
+                StatusVisibility.fromStatus(updateStatusExperience.getStatus())
+        );
+
+        log.trace("Save experience by name - {}", experience.getName());
+        experienceRepository.save(experience);
+
+        return new ExperienceResponse(
+                experience.getName(),
+                experience.getStatus()
         );
     }
 }

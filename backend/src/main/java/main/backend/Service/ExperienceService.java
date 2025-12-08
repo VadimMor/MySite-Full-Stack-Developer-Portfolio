@@ -1,6 +1,7 @@
 package main.backend.Service;
 
 import main.backend.dto.Request.ExperienceRequest;
+import main.backend.dto.Request.UpdateStatusExperience;
 import main.backend.dto.Response.ExperienceResponse;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,11 @@ public interface ExperienceService {
      * @return статус о успешном создании опыта
      */
     ExperienceResponse createExperience(ExperienceRequest experienceRequest);
+
+    /**
+     * Обновление статуса опыта
+     * @param updateStatusExperience информация для обновления
+     * @return статус о успешном обновлении
+     */
+    ExperienceResponse updateStatusExperience(UpdateStatusExperience updateStatusExperience);
 }

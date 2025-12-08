@@ -92,11 +92,11 @@ public class SkillServiceImpl implements SkillService {
                         skill.getDescription(),
                         skill.getExperiences()
                                 .stream()
-                                .map(
-                                        experience -> new FullExperienceResponse(
-                                                experience.getName(),
-                                                experience.getDescription()
-                                        )
+                                .filter(experience -> experience.getStatus() == StatusVisibility.OPEN)
+                                .map(experience -> new FullExperienceResponse(
+                                        experience.getName(),
+                                        experience.getDescription()
+                                )
                                 ).toArray(
                                         FullExperienceResponse[]::new
                                 )

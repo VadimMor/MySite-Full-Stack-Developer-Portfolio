@@ -10,6 +10,7 @@ import main.backend.Service.ExperienceService;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.UpdateStatusExperience;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.FullExperienceResponse;
 import main.backend.dto.Response.SkillResponse;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,5 +115,23 @@ public class ExperienceServiceImpl implements ExperienceService {
         });
 
         return experienceList;
+    }
+
+    /**
+     * Вывод массива опыта
+     * @return массив опыта
+     */
+    @Override
+    public FullExperienceResponse[] getMassiveExperience() {
+        log.trace("Search all experience");
+        List<Experience> experienceList = experienceRepository.findAllByStatus(StatusVisibility.OPEN);
+
+        log.trace("Found {} experiences. Mapping to FullExperienceResponse[].", experienceList.size());
+        return experienceList.stream().map(
+                experience -> new FullExperienceResponse(
+                        experience.getName(),
+                        experience.getDescription()
+                )
+        ).toArray(FullExperienceResponse[]::new);
     }
 }

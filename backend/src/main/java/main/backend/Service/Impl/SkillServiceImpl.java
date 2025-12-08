@@ -174,4 +174,13 @@ public class SkillServiceImpl implements SkillService {
                 StatusVisibility.UPDATE
         );
     }
+
+    /**
+     * Вывод массива опыта
+     * @return массив опыта
+     */
+    @Override
+    public FullExperienceResponse[] getMassiveExperience() {
+        return experienceService.getMassiveExperience();
+    }
 }

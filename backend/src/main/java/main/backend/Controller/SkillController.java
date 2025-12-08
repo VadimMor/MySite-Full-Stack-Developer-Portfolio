@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import main.backend.Service.SkillService;
 import main.backend.dto.Request.*;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.FullExperienceResponse;
 import main.backend.dto.Response.FullSkillResponse;
 import main.backend.dto.Response.SkillResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +96,15 @@ public class SkillController {
     ) {
         ExperienceResponse experienceResponse = skillService.updateStatusExperience(updateStatusExperience);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(experienceResponse);
+    }
+
+    @GetMapping("/experience/all")
+    @Operation(
+            summary = "Вывод всего опыта",
+            description = "Выводит всех возможный открытый опыт"
+    )
+    public ResponseEntity<FullExperienceResponse[]> getAllExperience() {
+        FullExperienceResponse[] fullExperienceResponses = skillService.getMassiveExperience();
+        return ResponseEntity.ok(fullExperienceResponses);
     }
 }

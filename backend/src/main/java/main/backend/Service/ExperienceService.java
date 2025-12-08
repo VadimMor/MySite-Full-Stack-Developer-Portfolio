@@ -4,6 +4,7 @@ import main.backend.Entity.Experience;
 import main.backend.dto.Request.ExperienceRequest;
 import main.backend.dto.Request.UpdateStatusExperience;
 import main.backend.dto.Response.ExperienceResponse;
+import main.backend.dto.Response.FullExperienceResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,4 +31,10 @@ public interface ExperienceService {
      * @return список опыта
      */
     List<Experience> getAllByNames(List<String> experiences);
+
+    /**
+     * Вывод массива опыта
+     * @return массив опыта
+     */
+    FullExperienceResponse[] getMassiveExperience();
 }

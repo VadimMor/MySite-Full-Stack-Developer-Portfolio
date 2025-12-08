@@ -100,11 +100,14 @@ public class ExperienceServiceImpl implements ExperienceService {
      */
     @Override
     public List<Experience> getAllByNames(List<String> experiences) {
+        log.trace("Found {} experiences", experiences.size());
         List<Experience> experienceList = new ArrayList<>();
 
         experiences.forEach(name -> {
+            log.trace("Search experience by name - {}", name);
             Experience experience = experienceRepository.getByNameAndStatus(name, StatusVisibility.OPEN);
 
+            log.trace("Add list experience by name - {}", name);
             if (experience != null) {
                 experienceList.add(experience);
             }

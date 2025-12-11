@@ -1,0 +1,166 @@
+package main.backend.Service.Impl;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import main.backend.Entity.Category;
+import main.backend.Entity.Post;
+import main.backend.Repository.PostRepository;
+import main.backend.Service.CategoryService;
+import main.backend.Service.PostService;
+import main.backend.Utils.MarkdownUtils;
+import main.backend.dto.Request.PostRequest;
+import main.backend.dto.Response.PostResponse;
+import main.backend.enums.StatusVisibility;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.HashSet;
+
+@Slf4j
+@Service
+@NoArgsConstructor
+@AllArgsConstructor
+public class PostServiceImpl implements PostService {
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private MarkdownUtils markdownUtils;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    /**
+     * Создание поста и сохранение в бд
+     * @param postRequest информация о посте
+     * @return статус о успешном создании поста
+     */
+    @Override
+    public PostResponse createPost(PostRequest postRequest) {
+        log.trace("Search post by name - {}", postRequest.getName());
+        Post post = postRepository.getByName(postRequest.getName());
+
+        if (post != null) {
+            log.error("The post has already been created - {}", postRequest.getName());
+            throw new RuntimeException("The post has already been created");
+        }
+
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
+        log.trace("Create post by name - {}", postRequest.getName());
+        Post newPost = new Post(
+             now,
+             now,
+             StatusVisibility.DEVELOPMENT,
+                postRequest.getName(),
+                postRequest.getDescription(),
+                postRequest.getUrl(),
+                markdownUtils.countWordsInString(
+                        postRequest.getDescription()
+                )
+        );
+
+        postRequest.getCategories().forEach(categoryRequest -> {
+            log.trace("Add post by name - {}", categoryRequest.getName());
+            newPost.addCategorySet(
+                    categoryService.getCategoryByName(categoryRequest.getName())
+            );
+        });
+
+
+        log.trace("Save post by name - {}", newPost.getName());
+        postRepository.saveAndFlush(newPost);
+
+        return new PostResponse(
+                newPost.getName(),
+                StatusVisibility.DEVELOPMENT.getStatus()
+        );
+    }
+
+    /**
+     * Изменение информации поста и сохранение поста
+     * @param postRequest информация о посте
+     * @param id поста
+     * @return статус о успешном изменении поста
+     */
+    @Override
+    public PostResponse updateStatus(PostRequest postRequest, Long id) {
+        log.trace("Search post by id - {}", id);
+        Post post = postRepository.getReferenceById(id);
+
+        if (post == null) {
+            log.error("The post not found - {}", id);
+            throw new RuntimeException("The post not found");
+        }
+
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
+        log.trace("Update post by id - {}", post.getId());
+        post.setName(postRequest.getName());
+        post.setDescription(postRequest.getDescription());
+        post.setUrl(postRequest.getUrl());
+        post.setLength(
+                markdownUtils.countWordsInString(
+                        postRequest.getDescription()
+                )
+        );
+        post.setUpdateDate(now);
+
+        log.trace("Clear categories post by id - {}", post.getId());
+        post.setCategories(new HashSet<>());
+
+        postRequest.getCategories().forEach(categoryRequest -> {
+            log.trace("Add post by name - {}", categoryRequest.getName());
+            post.addCategorySet(
+                    categoryService.getCategoryByName(categoryRequest.getName())
+            );
+        });
+
+        log.trace("Save post by name - {}", post.getName());
+        postRepository.save(post);
+
+        return new PostResponse(
+                post.getName(),
+                StatusVisibility.UPDATE.getStatus()
+        );
+    }
+
+    /**
+     * Обновление статуса поста
+     * @param id поста
+     * @param status изменный статус поста
+     * @return  статус о успешном изменении статуса поста
+     */
+    @Override
+    public PostResponse updateStatusPost(Long id, String status) {
+        log.trace("Search post by id - {}", id);
+        Post post = postRepository.getReferenceById(id);
+
+        if (post == null) {
+            log.error("The post not found - {}", id);
+            throw new RuntimeException("The post not found");
+        }
+
+        log.trace("Create now timestamp");
+        Timestamp now = Timestamp.from(Instant.now());
+
+        log.trace("Update post by id - {}", post.getId());
+        post.setStatus(StatusVisibility.fromStatus(status));
+        post.setUpdateDate(now);
+
+        log.trace("Save post by name - {}", post.getName());
+        postRepository.save(post);
+
+        return new PostResponse(
+                post.getName(),
+                post.getStatus().getStatus()
+        );
+    }
+
+
+}

@@ -23,6 +23,7 @@ public class PostController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping("/category")
     @Operation(
             summary = "Вывод всех категорий для пользователей",

@@ -1,5 +1,6 @@
 package main.backend.Service;
 
+import main.backend.Entity.Category;
 import main.backend.dto.Request.CategoryRequest;
 import main.backend.dto.Response.CategoryFullResponse;
 import main.backend.dto.Response.CategoryResponse;
@@ -23,7 +24,7 @@ public interface CategoryService {
     CategoryResponse updateCategory(CategoryRequest categoryRequest, Long id);
 
     /**
-     * Выводит все категории
+     * Вывод всех категорий
      * @return массив категорий
      */
     CategoryFullResponse[] getAllCategory();
@@ -35,4 +36,11 @@ public interface CategoryService {
      * @return статус успешном обновлении статуса категории
      */
     CategoryResponse updateStatusCategory(Long id, String status);
+
+    /**
+     * Вывод категории по названию
+     * @param name название категории
+     * @return категория
+     */
+    Category getCategoryByName(String name);
 }

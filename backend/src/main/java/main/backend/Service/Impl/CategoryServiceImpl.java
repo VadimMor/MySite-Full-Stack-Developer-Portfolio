@@ -140,5 +140,16 @@ public class CategoryServiceImpl implements CategoryService {
         );
     }
 
+    /**
+     * Вывод категории по названию
+     * @param name название категории
+     * @return категория
+     */
+    @Override
+    public Category getCategoryByName(String name) {
+        log.trace("Search category by name - {}", name);
+        return categoryRepository.getByName(name);
+    }
+
 
 }

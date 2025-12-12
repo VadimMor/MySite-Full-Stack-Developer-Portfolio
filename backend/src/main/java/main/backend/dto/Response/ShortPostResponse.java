@@ -9,6 +9,9 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 public class ShortPostResponse {
+    @JsonProperty("id")
+    Long id;
+
     @JsonProperty("name")
     String name;
 

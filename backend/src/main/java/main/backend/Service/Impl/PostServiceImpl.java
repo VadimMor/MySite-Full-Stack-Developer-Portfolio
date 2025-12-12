@@ -255,6 +255,7 @@ public class PostServiceImpl implements PostService {
         log.trace("Found {} posts. Mapping to InfoAnArrayProject[].", postList.size());
         return postList.stream().map(
                 post -> new ShortPostResponse(
+                        post.getId(),
                         post.getName(),
                         post.getCreateDate(),
                         post.getCategories().stream().map(

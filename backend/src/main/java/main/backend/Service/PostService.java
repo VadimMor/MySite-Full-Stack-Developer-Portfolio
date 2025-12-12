@@ -1,7 +1,9 @@
 package main.backend.Service;
 
 import main.backend.dto.Request.PostRequest;
+import main.backend.dto.Response.FullPostResponse;
 import main.backend.dto.Response.PostResponse;
+import main.backend.dto.Response.ShortPostResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +21,7 @@ public interface PostService {
      * @param id поста
      * @return статус о успешном изменении поста
      */
-    PostResponse updateStatus(PostRequest postRequest, Long id);
+    PostResponse updatePost(PostRequest postRequest, Long id);
 
     /**
      * Обновление статуса поста
@@ -29,5 +31,18 @@ public interface PostService {
      */
     PostResponse updateStatusPost(Long id, String status);
 
+    /**
+     * Вывод информации поста
+     * @param id поста
+     * @return информация поста
+     */
+    FullPostResponse getInfoPost(Long id);
 
+    /**
+     * Вывод массива постов по страницам и сортировке
+     * @param page номер страницы
+     * @param sort сортировка
+     * @return массив постов
+     */
+    ShortPostResponse[] getMassivePost(Integer page, String sort);
 }

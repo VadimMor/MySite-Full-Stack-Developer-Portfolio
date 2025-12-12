@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CategoryFullResponse {
+public class FullCategoryResponse {
     @JsonProperty("name")
     String name;
 }

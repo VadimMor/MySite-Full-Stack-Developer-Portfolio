@@ -2,7 +2,7 @@ package main.backend.Service;
 
 import main.backend.Entity.Category;
 import main.backend.dto.Request.CategoryRequest;
-import main.backend.dto.Response.CategoryFullResponse;
+import main.backend.dto.Response.FullCategoryResponse;
 import main.backend.dto.Response.CategoryResponse;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public interface CategoryService {
      * Вывод всех категорий
      * @return массив категорий
      */
-    CategoryFullResponse[] getAllCategory();
+    FullCategoryResponse[] getAllCategory();
 
     /**
      * Обновление статуса  категории

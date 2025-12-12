@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main.backend.Entity.Category;
-import main.backend.Entity.Skill;
 import main.backend.Repository.CategoryRepository;
 import main.backend.Service.CategoryService;
 import main.backend.dto.Request.CategoryRequest;
-import main.backend.dto.Response.CategoryFullResponse;
+import main.backend.dto.Response.FullCategoryResponse;
 import main.backend.dto.Response.CategoryResponse;
 import main.backend.enums.StatusVisibility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,12 +97,12 @@ public class CategoryServiceImpl implements CategoryService {
      * @return массив категорий
      */
     @Override
-    public CategoryFullResponse[] getAllCategory() {
+    public FullCategoryResponse[] getAllCategory() {
         log.trace("Search all category");
         List<Category> categoryList = categoryRepository.findAllByStatus(StatusVisibility.OPEN);
-        return categoryList.stream().map(category -> new CategoryFullResponse(
+        return categoryList.stream().map(category -> new FullCategoryResponse(
                 category.getName()
-        )).toArray(CategoryFullResponse[]::new);
+        )).toArray(FullCategoryResponse[]::new);
     }
 
     /**

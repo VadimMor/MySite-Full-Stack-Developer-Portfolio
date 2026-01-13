@@ -1,11 +1,8 @@
 package main.backend.Service;
 
 import jakarta.mail.MessagingException;
-import main.backend.Entity.AbstractEmailContext;
 import main.backend.Entity.Post;
 import org.springframework.stereotype.Service;
-
-import java.io.FileNotFoundException;
 
 @Service
 public interface MailService {

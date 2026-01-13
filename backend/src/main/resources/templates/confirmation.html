@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение почты</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+</head>
+<body>
+<table width="600" cellspacing="0" cellpadding="0" align="center" style="margin 15px; background: #000000;  border-collapse: collapse;">
+    <tr>
+        <td bgcolor="transparent" style="padding: 15px; background: #000000;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border: 2px solid #ffffff; padding: 15px;">
+                <tr>
+                    <td>
+                        <h2 style="margin: 0; font-family: 'JetBrains Mono', monospace; color: #FFDDC0;">Спасибо за подписку</h2>
+                        <p style="margin: 15px 0 5px; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #FFF; line-height: 23px;">Добрый день, <span th:text="${name}" />!</p>
+                        <p style="margin: 5px 0; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #FFF; line-height: 23px;">Спасибо, что подписались на новостную рассылку Blue-Rabbit.</p>
+                        <p style="font-family: 'JetBrains Mono', monospace; color: #777; font-size: 13px; line-height: 23px;">Пожалуйста, не отвечайте на данное письмо, оно сгенерировано автоматически.</p>
+                        <hr  />
+                        <p style="margin: 5px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #FFF; line-height: 23px;">Blue Rabbit, <a href="http://blue-rabbit.ru/" style="color: #007bff; text-decoration: none;">blue-rabbit.ru</a></p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

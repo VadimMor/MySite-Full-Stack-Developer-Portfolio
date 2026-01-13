@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import main.backend.Entity.Post;
 import main.backend.Repository.PostRepository;
 import main.backend.Service.CategoryService;
+import main.backend.Service.MailService;
 import main.backend.Service.PostService;
+import main.backend.Service.UserMailService;
 import main.backend.Utils.MarkdownUtils;
 import main.backend.dto.Request.PostRequest;
 import main.backend.dto.Response.*;
@@ -37,6 +39,8 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private UserMailService userMailService;
 
     /**
      * Создание поста и сохранение в бд
@@ -160,6 +164,20 @@ public class PostServiceImpl implements PostService {
 
         log.trace("Save post by name - {}", post.getName());
         postRepository.save(post);
+
+        if (post.getStatus() == StatusVisibility.OPEN) {
+            log.trace("Send mail post - {}", post.getName());
+            String preview = markdownUtils.getCleanPreview(post.getDescription(), 120);
+
+            String fullDescription = post.getDescription();
+
+            try {
+                post.setDescription(preview);
+                userMailService.sendMailPostByUsers(post);
+            } finally {
+                post.setDescription(fullDescription);
+            }
+        }
 
         return new PostResponse(
                 post.getName(),

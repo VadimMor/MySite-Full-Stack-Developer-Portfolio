@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -55,5 +56,35 @@ public class MarkdownUtils {
 
         log.trace("Final word count result: {} words.", wordCount);
         return (int) wordCount;
+    }
+
+    public String getCleanPreview(String markdownContent, int wordLimit) {
+        if (markdownContent == null || markdownContent.trim().isEmpty()) {
+            return "";
+        }
+
+        // 1. Очищаем от Markdown, но сохраняем базовую пунктуацию для читаемости
+        String cleanText = markdownContent
+                .replaceAll("!\\[.*?\\]\\(.*?\\)", " ") // Удаляем изображения
+                .replaceAll("\\[(.*?)\\]\\(.*?\\)", "$1") // Ссылки: оставляем только текст [текст](урл) -> текст
+                .replaceAll("(?m)^[#=\\-*]{1,6}\\s*", " ") // Заголовки
+                .replaceAll("```[\\s\\S]*?```", " ") // Блоки кода
+                .replaceAll("`.*?`", " ") // Инлайн код
+                .replaceAll("[*_]{1,2}", "") // Жирный/курсив
+                .replaceAll("(?m)^>\\s*", " ") // Цитаты
+                .replaceAll("\\s+", " ") // Двойные пробелы и переносы
+                .trim();
+
+        // 2. Разделяем на слова по пробелам
+        String[] words = cleanText.split("\\s+");
+
+        if (words.length <= wordLimit) {
+            return cleanText;
+        }
+
+        // 3. Собираем первые wordLimit слов
+        return Arrays.stream(words)
+                .limit(wordLimit)
+                .collect(Collectors.joining(" ")) + "...";
     }
 }

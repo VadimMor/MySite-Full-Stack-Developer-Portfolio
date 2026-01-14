@@ -1,34 +1,60 @@
-version: '3.8'
+version: "3.9"
 
 services:
-  # Сервис бэкенда 
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRESQL_DB}
+      POSTGRES_USER: ${POSTGRESQL_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRESQL_USERNAME} -d ${POSTGRESQL_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DB}
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27011:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: my_spring_backend
-    restart: always
+    container_name: backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # СОБИРАЕМ URL ЗДЕСЬ
+      POSTGRESQL_URL: jdbc:postgresql://postgres:5432/${POSTGRESQL_DB}
+      MONGODB_URL: mongodb://mongodb:27017
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
     ports:
       - "8080:8080"
-    environment:
-      # URL для подключения к БД на хост-машине.
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://${HOST_IP}:5432/test
-      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
-      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
-      - GITHUB_URL=https://api.github.com/
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
-      
-  # Сервис фронтенда (Next.js)
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: my_next_frontend
-    restart: always
-    depends_on:
-      - backend
-    ports:
-      - "3000:3000"
-    environment:
-      # Если фронтенду нужно знать адрес бэкенда
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+
+volumes:
+  postgres_data:
+  mongo_data:

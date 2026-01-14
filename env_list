@@ -1,0 +1,12 @@
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=password
+
+MAIL_EMAIL=emial@emial.com
+MAIL_USERNAME=username
+MAIL_PASSWORD=token
+
+POSTGRESQL_USERNAME=postgres
+POSTGRESQL_PASSWORD=postgres
+POSTGRESQL_DB=database
+
+MONGODB_DB=database

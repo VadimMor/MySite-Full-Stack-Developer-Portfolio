@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <changeSet id="create-many-to-many" author="backend">
+
+        <createTable tableName="post_category">
+            <column name="post_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_post_cat_post" referencedTableName="post" referencedColumnNames="id"/>
+            </column>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_post_cat_category" referencedTableName="category" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="projects_technologies">
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_proj_tech_project" referencedTableName="project" referencedColumnNames="id"/>
+            </column>
+            <column name="technology_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_proj_tech_technology" referencedTableName="technology" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="skill_experience">
+            <column name="skill_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_skill_exp_skill" referencedTableName="skill" referencedColumnNames="id"/>
+            </column>
+            <column name="experience_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_skill_exp_experience" referencedTableName="experience" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

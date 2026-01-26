@@ -1,0 +1,25 @@
+.container {
+    .title {
+        margin-bottom: 6px;
+
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--text-heading);
+        line-height: 150%;
+    }
+
+    .line {
+        width: 100%;
+        margin-bottom: 16px;
+
+        overflow: hidden;
+
+        color: var(--text-muted);
+    }
+    
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

@@ -1,0 +1,53 @@
+.block {
+    display: grid;
+    grid-template-columns: minmax(80px, 160px) 1fr minmax(180px, 350px); 
+    grid-template-rows: 1fr; 
+    gap: 0px 0; 
+    grid-template-areas: 
+        ". . .";
+
+    cursor: pointer;
+
+    color: var(--text-main);
+
+    >div {
+        padding:  4px 12px;
+
+        border-right: 2px solid var(--color-invert);
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+
+            border: none;
+        }
+    }
+
+    
+
+    &:hover,
+    &:focus {
+        >div {
+            animation: link_animation 1.2s infinite;
+        }
+        
+    }
+}
+
+@keyframes link_animation {
+    0%, 49.9% {
+        background: var(--color-invert);
+        border-color: var(--color-main);
+
+        color: var(--text-invert);
+    }
+    50%, 100% {
+        background: transparent;
+        border-color: var(--color-invert);
+
+        color: var(--text-main);
+    }
+}

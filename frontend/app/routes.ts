@@ -6,5 +6,6 @@ import {
 
 export default [
     index("routes/home.tsx"),
-    route("skills", "routes/skills.tsx")
+    route("skills", "routes/skills.tsx"),
+    route("projects", "routes/projects.tsx")
 ] satisfies RouteConfig;

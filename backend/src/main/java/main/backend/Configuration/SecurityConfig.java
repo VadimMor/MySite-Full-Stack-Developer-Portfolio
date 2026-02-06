@@ -93,7 +93,8 @@ public class SecurityConfig {
                 "http://localhost:8080",
                 "http://blue-rabbit.ru:8080",
                 "http://localhost:3000",
-                "http://blue-rabbit.ru:3000"
+                "http://blue-rabbit.ru:3000",
+                "http://localhost:5173"
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));

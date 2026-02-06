@@ -1,0 +1,121 @@
+.header  {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+
+        .left {
+            display: flex;
+            gap: 40px;
+
+            .logo {
+                pre {
+                    font-family: "JetBrains Mono", monospace;
+                    color: var(--text-main);
+                }
+            }
+
+            .content {
+                display: flex;
+                gap: 18px;
+            margin-top: 10px;
+
+                .names {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                }
+                
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+
+                    a {
+                        color: var(--text-main);
+
+                        transition: all 0.1s linear;
+
+                        &:hover,
+                        &:target,
+                        &:focus {
+                            color: var(--text-link);
+                        }
+                    }
+                }
+            }
+        }
+
+        .right {
+            margin-top: 10px;
+
+            a {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                color: var(--text-link);
+                
+                transition: all 0.1s linear;
+
+                .icon {
+                    font-size: 22px;
+                    color: var(--text-main);
+                }
+
+                &:hover,
+                &:target,
+                &:focus {
+                    color: var(--text-main);
+                }
+            }
+        }
+    }
+    
+    .menu {
+        display: flex;
+        gap: 4px;
+
+        .link_menu {
+            padding: 8px 12px;
+
+            color: var(--text-link);
+
+            transition: all 0.2s linear;
+
+            &:hover,
+            &:target,
+            &:focus {
+                animation: link_animation 1.2s infinite;
+            }
+
+            &.active {
+                background: var(--color-invert);
+
+                color: var(--text-invert);
+
+                &:hover,
+                &:target,
+                &:focus {
+                    animation: none;
+                }
+            }
+        }
+    }
+}
+
+@keyframes link_animation {
+    0%, 49.9% {
+        background: var(--text-main);
+
+        color: var(--text-invert);
+    }
+    50%, 100% {
+        background: transparent;
+        color: var(--text-link);
+    }
+}

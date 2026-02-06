@@ -22,6 +22,16 @@ interface shortInfoProject {
     description: string
 }
 
+interface infoProject {
+    name: string,
+    description: string,
+    create_date: Date,
+    url: string,
+    technologies: {
+        name: string
+    }[]
+}
+
 const api = {
     skills: {
         getAll: async (): Promise<Skill[]> => {
@@ -47,6 +57,13 @@ const api = {
             name: string
         ): Promise<shortInfoProject> => {
             const res = await fetch(`${API_BASE}/project/short/${name}`);
+            return res.json();
+        },
+
+        getInfo: async (
+            name: string
+        ): Promise<infoProject> => {
+            const res = await fetch(`${API_BASE}/project/${name}`);
             return res.json();
         }
     }

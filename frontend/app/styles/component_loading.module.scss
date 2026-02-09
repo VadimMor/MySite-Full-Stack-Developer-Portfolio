@@ -1,0 +1,29 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 16px;
+
+    .line {
+        width: 2px;
+
+        background: var(--color-invert);
+
+        animation: line_animation 2.5s infinite;
+    }
+}
+
+@keyframes line_animation {
+    0%, 25% {
+        transform: rotate(45deg);
+    }
+    25.1%, 50% {
+        transform: rotate(90deg);
+    }
+    50.1%, 75% {
+        transform: rotate(135deg);
+    }
+    75.1%, 100% {
+        transform: rotate(180deg);
+    }
+}

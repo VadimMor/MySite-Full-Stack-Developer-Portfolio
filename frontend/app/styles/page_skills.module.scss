@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    max-width: 615px;
+    width: 100%;
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--text-heading);
+
+        .line {
+            color: var(--text-muted);
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

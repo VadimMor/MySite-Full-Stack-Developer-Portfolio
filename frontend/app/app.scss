@@ -69,6 +69,18 @@ main {
     width: 100%;
     margin: 0 auto;
 }
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-select);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--text-heading);
+    border-radius: 0px;
+	cursor: pointer;
+}
 /*----------------------*/
 
 

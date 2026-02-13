@@ -8,7 +8,7 @@ export default [
     index("routes/home.tsx"),
     route("skills", "routes/skills.tsx"),
     route("projects", "routes/projects.tsx"),
+    route("projects/:name", "routes/project.tsx"),
     route("*", "routes/notFound.tsx")
     // список проектов
-    // route("projects/:name", "routes/project.tsx"),
 ] satisfies RouteConfig;

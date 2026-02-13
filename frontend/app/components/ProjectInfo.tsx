@@ -100,7 +100,7 @@ export default function ProjectInfo({ name }: ProjectInfoProps) {
 
                         {/* Ссылка на полную страницу проекта */}
                         <Link
-                            to={`${name.split(" ").join("--")}`}
+                            to={`${name}`}
                             className={styles.link}
                         >
                             Посмотреть ещё

@@ -38,7 +38,7 @@ interface infoProject {
 
 // Методы постов
 interface shortMassivePost {
-    link: number,
+    id: number,
     name: string,
     date: Date,
     categories: {

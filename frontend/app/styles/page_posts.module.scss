@@ -1,0 +1,173 @@
+.section {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    width: 100%;
+    height: 100%;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        flex-grow: 1;
+
+        overflow-x: hidden;
+
+        .title_main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            h1 {
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--text-heading);
+            }
+
+            div {
+                color: var(--text-muted);
+            }
+        }
+
+        .filtr {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+
+            .filtr_block {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                position: relative;
+
+                .filtr_title {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 8px;
+
+                    cursor: pointer;
+
+                    font-weight: 600;
+                    font-size: 14px;
+                    color: var(--text-main);
+
+                    div {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 6px;
+                        
+                        padding: 2px 5px;
+
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: var(--text-muted);
+
+                        span {
+                            font-size: 10px;
+
+                            transform: rotate(180deg);
+                        }
+
+                        
+                        &:hover,
+                        &:focus {
+                            animation: button_animation 1.2s infinite;
+                        }
+                    }
+
+
+                    &.active {
+                        div {
+                            background: var(--text-main);
+
+                            color: var(--text-invert);
+
+                            &:hover,
+                            &:focus {
+                                animation: none;
+                            }
+                        }
+                    }
+                }
+
+                ul {
+                    display: flex;
+                    flex-direction: column;
+
+                    position: absolute;
+                    left: 0;
+                    top: calc(100% + 8px);
+                    z-index: 10;
+
+                    background: var(--color-select);
+                    border: 2px solid var(--color-invert);
+
+                    li {
+                        padding: 10px 6px;
+                        
+                        cursor: pointer;
+                        border-bottom: 2px solid var(--color-invert);
+
+                        &:last-child {
+                            border: none;
+                        }
+
+                        &:hover,
+                        &:focus {
+                            animation: second_button_animation 1.2s infinite;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            .title {
+                display: grid; 
+                grid-template-columns: minmax(100px, 150px) 1fr minmax(200px, 250px); 
+                grid-template-rows: 1fr; 
+                gap: 0px 0px; 
+                grid-template-areas: 
+                    ". . .";
+
+                padding: 6px 0;
+
+                border-bottom: 2px solid var(--color-invert);
+
+                color: var(--text-main);
+            }
+        }
+    }
+}
+
+@keyframes button_animation {
+    0%, 49.9% {
+        background: var(--text-main);
+
+        color: var(--text-invert);
+    }
+    50%, 100% {
+        background: transparent;
+        color: var(--text-muted);
+    }
+}
+
+@keyframes second_button_animation {
+    0%, 49.9% {
+        background: var(--text-main);
+
+        color: var(--color-select);
+    }
+    50%, 100% {
+        background: transparent;
+        color: var(--text-main);
+    }
+}
